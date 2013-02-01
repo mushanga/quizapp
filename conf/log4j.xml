@@ -4,7 +4,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${HOME}/logs/tsg/tsg.txt" />
+		<param name="File" value="${HOME}/logs/quizapp/quizapp.txt" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd-HH" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{ABSOLUTE} %5p %t %c{1}:%L - %m%n" />
