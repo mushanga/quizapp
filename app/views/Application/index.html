@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'Quiz App' /}
+
+
+
+<div data-role="content">	
+	<ul data-role="listview" data-theme="c">
+		#{list quizzes, as:'quiz'}			
+			<li><a href="@{quiz(quiz.id)}"  data-transition="slide">${quiz.title}</a></li>	
+		#{/list}
+	</ul>	
+</div>
+	

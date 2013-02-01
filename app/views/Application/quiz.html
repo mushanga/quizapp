@@ -1,0 +1,63 @@
+#{extends 'main.html' /}
+#{set title:quiz.title /}
+
+<script>
+quiz = null; 
+answers = {};
+function getQuizDataUrl(quizIdp){
+	
+		var actionUrl = #{jsAction @quizData(':quizId') /};
+		return actionUrl({quizId: quizIdp});
+	
+
+}
+function getQuizCallback(data){
+	quiz = data;
+}
+getQuizById(${quiz.id},getQuizCallback);
+
+</script>
+<div id="productContainer" style="overflow: hidden;">
+
+<ul data-role="listview">
+%{i = 0}%
+#{list quiz.questions, as:'question'}
+	%{i ++}%
+
+	<li data-theme="b"  data-inset="true"><font>${i}) ${question.text} </font></li>
+	
+
+	<li>
+		<div data-role="fieldcontain" >
+			<fieldset data-role="controlgroup">
+			    	
+	#{list question.answers, as:'answer'}
+	
+			<input type="radio" data-theme="c"  name="${question.id}" value="${answer.id}" id="${answer.id}"/>
+			<script>
+// 			$('#${answer.id}').bind("change"
+// 					,function(sender, e){
+// 			     var deselect = !answer(${question.id},${answer.id});
+// 			     $('#${answer.id}').prop('checked', false);
+// 					 if(!deselect){
+// 			    	 $('#${answer.id}').prop('checked', true);
+// 			     }else{
+			    	 
+// 			     }
+			   	
+// 			     $('#${answer.id}').checkboxradio('refresh');
+// 			     e.stopPropagation()
+// 			});
+			
+		
+			</script>
+	   		<label for="${answer.id}" ><font style="font-size: small">${answer.text}</font></label>
+	#{/list}
+			</fieldset>
+		</div>
+	</li>
+#{/list}
+</ul>
+ 
+</div>
+<div class="clear"></div>
