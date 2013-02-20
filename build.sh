@@ -1,19 +1,19 @@
 PLAY_HOME=/home/play-1.2.5
 PLAY=$PLAY_HOME/play
-TSG_SRC=/home/tsg/tsg
-TSG_PROD=/home/tsg/tsg_prod
+APP_SRC=/home/quizapp/quizapp
+APP_PROD=/home/quizapp/quizapp_prod
 
-cd $TSG_SRC
+cd $APP_SRC
 git pull origin master
 
-cd $TSG_PROD
-$PLAY stop $TSG_PROD
+cd $APP_PROD
+$PLAY stop $APP_PROD
 
-rm -Rf $TSG_PROD
-mkdir $TSG_PROD
-cp -R $TSG_SRC/* $TSG_PROD/
-rm $TSG_PROD/README.md
-rm $TSG_PROD/build.sh
-cd $TSG_PROD
+rm -Rf $APP_PROD
+mkdir $APP_PROD
+cp -R $APP_SRC/* $APP_PROD/
+rm $APP_PROD/README.md
+rm $APP_PROD/build.sh
+cd $APP_PROD
 $PLAY deps --sync
 $PLAY start

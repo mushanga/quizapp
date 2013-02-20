@@ -70,11 +70,11 @@ public class Start extends Job {
       }
       
       try {
-         List<String> lineList = Util.readFileAsLineList(quizPath+"alltext");
+         List<String> lineList = Util.readFileAsLineList(quizPath+"source.txt");
 //         List<String> quizzes = Util.parse(lineList, null, null, null, null, "// quest", null, false);
 //         
          List<Quiz> quizObjs = new ArrayList<Quiz>();
-         String quizName = "_%+/(";
+         String quizName = "";
          Quiz quizObj = null;
          Question question = null;
          for(String line : lineList){    
@@ -118,8 +118,9 @@ public class Start extends Job {
          for(Quiz quiz : quizObjs){
             Gson gson = new Gson();
     
-            
-            FileUtils.writeStringToFile(new File(quiz.title+".json"), gson.toJson(quiz));
+            File f = new File(quizPath+quiz.title+".json");
+          
+            FileUtils.writeStringToFile(f, gson.toJson(quiz), "utf-8");
          }
         
          int a = 0;
