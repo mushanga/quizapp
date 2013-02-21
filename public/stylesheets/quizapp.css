@@ -1,0 +1,23 @@
+.qa-text-center{
+	text-align: center;
+}
+
+.qa-small-text{
+	font-size:small;
+	white-space: normal;
+
+}
+.qa-valign-top{
+	vertical-align: top;
+
+}
+.qa-margin-right{
+	margin-right: 10px;
+
+}
+.qa-question-number{
+	color : rgb(179, 184, 236);
+	margin-right: 10px;
+	vertical-align: top;
+
+}

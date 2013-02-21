@@ -4,10 +4,20 @@
 
 
 <div data-role="content">	
-	<ul data-role="listview" data-theme="c">
+	<ul data-role="listview" data-theme="b">
 		#{list quizzes, as:'quiz'}			
 			<li><a href="@{quiz(quiz.id)}"  data-transition="slide">${quiz.title}</a></li>	
 		#{/list}
 	</ul>	
 </div>
+<script>
+$('div').live('pageshow',function(event, ui){
+
+
+	    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 	
+
+	});	
+
+
+</script>

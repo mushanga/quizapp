@@ -5,29 +5,28 @@
 <title>#{get 'title' /}</title>	
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <meta charset="${_response_encoding}">
+
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-<style type="text/css">
-font{
-	font-size:small;
-	white-space: normal;
+<link rel="stylesheet" href="@{'/public/stylesheets/quizapp.css'}" />
 
-}
+ #{get 'moreStyles' /}
 
-</style>
-<!-- <link rel="stylesheet" href="@{'/public/stylesheets/jquery.mobile-1.2.0.min.css'}" /> -->
 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 <script type="text/javascript" src="@{'/public/javascripts/quizapp.js'}"></script>
-  #{get 'moreStyles' /}
-
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 #{get 'moreScripts' /}
+
+
+
+
 </head>
 <body>
 	
 <div data-role="page" data-theme="a">
 
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
 		
 		#{if request.url != '/'}
 		<a href="/" data-transition="slide" data-icon="home" data-iconpos="notext" data-direction="reverse">Home</a>

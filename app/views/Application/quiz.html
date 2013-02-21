@@ -23,8 +23,10 @@ getQuizById(${quiz.id},getQuizCallback);
 %{i = 0}%
 #{list quiz.questions, as:'question'}
 	%{i ++}%
-
-	<li data-theme="b"  data-inset="true"><font>${i}) ${question.text} </font></li>
+	
+<!-- 	<li data-theme="b"  data-inset="true" class="qa-text-center">${i}</li> -->
+	
+	<li data-theme="b"  data-inset="true"><span class="qa-question-number">${i})</span> <span class="qa-small-text">    ${question.text.raw()}</span></li>
 	
 
 	<li>
@@ -51,10 +53,11 @@ getQuizById(${quiz.id},getQuizCallback);
 			
 		
 			</script>
-	   		<label for="${answer.id}" ><font style="font-size: small">${answer.text}</font></label>
+	   		<label for="${answer.id}" ><span class="qa-small-text">${answer.text.raw()}</span></label>
 	#{/list}
 			</fieldset>
 		</div>
+		<br>
 	</li>
 #{/list}
 </ul>

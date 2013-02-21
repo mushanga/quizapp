@@ -36,7 +36,7 @@ public class Start extends Job {
       Gson gson = new Gson();
       if(Util.isValid(fileNames)){
          for(String fileName : fileNames){
-            
+            if(fileName.endsWith(".json"))
             try {
                Quiz quiz = gson.fromJson(Util.readFileAsString(getQuizPath()+fileName), Quiz.class);
                quiz.save();
@@ -44,6 +44,8 @@ public class Start extends Job {
             } catch (JsonSyntaxException e) {
                Logger.error(e, e.getMessage());
             } catch (IOException e) {
+               Logger.error(e, e.getMessage());
+            }catch (Exception e) {
                Logger.error(e, e.getMessage());
             }
          }
@@ -62,15 +64,9 @@ public class Start extends Job {
 
    }
 
-   public static void main(String[] args) {
-      String quizPath = ".." + FS +"quizzes" + FS;
-      File file = new File(quizPath);
-      if (!file.exists()) {
-         file.mkdirs();
-      }
-      
+   private static void loadQuizzesFromTextFile(){
       try {
-         List<String> lineList = Util.readFileAsLineList(quizPath+"source.txt");
+         List<String> lineList = Util.readFileAsLineList(QUIZ_PATH+"source.txt");
 //         List<String> quizzes = Util.parse(lineList, null, null, null, null, "// quest", null, false);
 //         
          List<Quiz> quizObjs = new ArrayList<Quiz>();
@@ -85,6 +81,7 @@ public class Start extends Job {
                if(!quizName.equals(quizNameStr)){
                   quizObj = new Quiz();
                   quizName = quizNameStr;
+                  quizName = unescapeTxtDataFormat(quizName);
                   quizObj.title = quizName;
                   quizObjs.add(quizObj);
                }
@@ -92,6 +89,7 @@ public class Start extends Job {
 
                String questionText = line.split("::")[2];
                question = new Question();
+               questionText = unescapeTxtDataFormat(questionText);
                question.text = questionText.substring(0, questionText.length()-1);
                quizObj.questions.add(question);
             }else if(line.startsWith("\t")){
@@ -110,26 +108,114 @@ public class Start extends Job {
                   
                }
                Answer answer = new Answer();
+               answerText = unescapeTxtDataFormat(answerText);
                answer.text = answerText;
                question.answers.add(answer);
             }
                        
          }
-         for(Quiz quiz : quizObjs){
-            Gson gson = new Gson();
-    
-            File f = new File(quizPath+quiz.title+".json");
-          
-            FileUtils.writeStringToFile(f, gson.toJson(quiz), "utf-8");
-         }
+         writeQuizzesIntoFile(quizObjs);
+   
         
-         int a = 0;
-         a++;
+        
       } catch (IOException e) {
          Logger.error(e, e.getMessage());
       }
-      QUIZ_PATH = quizPath;
+   }
+   
+   private static void writeQuizzesIntoFile(List<Quiz> quizObjs) throws IOException{  
+      Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+   
+      for(Quiz quiz : quizObjs){
+      
+         File f = new File(QUIZ_PATH+quiz.title+".json");
+       
+         FileUtils.writeStringToFile(f, gson.toJson(quiz), "utf-8");
+      }
+   }
+   
+   private static String unescapeTxtDataFormat(String str){
+      str = str.replace("\\:", ":");
+      str = str.replace("\\=", "=");
+      str = str.replace("\\{", "{");
+      str = str.replace("\\}", "}");
+      str = str.replace("\\#", "#");
+      str = str.replace("[html]", "");
+      str = str.replace("\\Bigint", "\\int");
+      return str;
+   }
+   
+   private static void loadQuizzesFromHTMLFile(){
+      try {
+         List<String> lineList = Util.readFileAsLineList(QUIZ_PATH+"source.html");
+//         List<String> quizzes = Util.parse(lineList, null, null, null, null, "// quest", null, false);
+//         
+         List<Quiz> quizObjs = new ArrayList<Quiz>();
+         String quizName = "";
+         Quiz quizObj = null;
+         Question question = null;
+         for(String line : lineList){    
+            
+            String trimmedLine = line.trim();
+            
+            if(trimmedLine.startsWith("<h3>")){
+               String quizNameStr =  Util.parse(trimmedLine, "<h3>", " ", null, null, null, null, false).get(0);
+               quizNameStr = quizNameStr.replaceAll(":", "");
+               
+               if(Util.isStringValid(quizNameStr)){
 
+                  if(!quizName.equals(quizNameStr)){
+                     quizObj = new Quiz();
+                     quizName = quizNameStr;
+                     quizObj.title = quizName;
+                     quizObjs.add(quizObj);
+                  }
+                  
+               }
+            }else if(trimmedLine.startsWith("<p>")){
+
+               String questionText = trimmedLine;//Util.parse(trimmedLine, "<p>", "</p>", null, null, null, null, false).get(0);
+//               questionText.replaceAll("<p>", "");
+//               questionText.replaceAll("</p>", "");
+               if(Util.isStringValid(questionText)){
+                  question = new Question();
+
+                  questionText = unescapeTxtDataFormat(questionText);
+                  question.text = questionText.substring(0, questionText.length()-1).trim();
+                  quizObj.questions.add(question);
+                  
+               }
+            }else if(trimmedLine.startsWith("<li>")){
+               trimmedLine = trimmedLine.replaceFirst("\t", "");
+               
+               String answerText = Util.parse(trimmedLine, "<li>", "</li>", null, null, null, null, false).get(0);
+               if(Util.isStringValid(answerText)){
+                  Answer answer = new Answer();
+
+                  answerText = unescapeTxtDataFormat(answerText);
+                  answer.text = answerText.trim();
+                  question.answers.add(answer);
+                  
+               }
+            
+            }
+                       
+         }  
+         writeQuizzesIntoFile(quizObjs);
+         
+      } catch (IOException e) {
+         Logger.error(e, e.getMessage());
+      }
+   }
+   
+   public static void main(String[] args) {
+      QUIZ_PATH = ".." + FS +"quizzes" + FS;
+      File file = new File(QUIZ_PATH);
+      if (!file.exists()) {
+         file.mkdirs();
+      }
+      loadQuizzesFromTextFile();
+//      loadQuizzesFromHTMLFile();
    }
 
 
