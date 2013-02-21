@@ -19,14 +19,5 @@ public class Quiz extends Model{
 	@OneToMany(cascade=CascadeType.ALL)
 	public List<Question> questions = new ArrayList<Question>();
 
-   public Quiz copy(){
-      
-      
-      
-      return null;
-      
-   }
-
-
 }
 

@@ -8,7 +8,7 @@ import play.mvc.Controller;
 public class Application extends Controller {
 	public static void index() {
 
-	   List<Quiz> quizzes = Quiz.findAll();
+	   List<Quiz> quizzes = Quiz.find("order by title").fetch();
       
 		render(quizzes);
 	}
