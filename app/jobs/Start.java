@@ -142,6 +142,10 @@ public class Start extends Job {
       str = str.replace("\\#", "#");
       str = str.replace("[html]", "");
       str = str.replace("\\Bigint", "\\int");
+      str = str.replace("\\n", "<br />");
+      str = str.replace("<p class=\"ilc_Standard\">", "");
+      str = str.replace("</p>", "");
+      
       return str;
    }
    
