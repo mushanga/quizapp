@@ -4,7 +4,7 @@
 
 
 <div data-role="content">	
-	<ul data-role="listview" data-theme="b">
+	<ul data-role="listview" data-theme="b" data-inset="true">
 		#{list quizzes, as:'quiz'}			
 			<li><a href="@{quiz(quiz.id)}"  data-transition="slide">${quiz.title}</a></li>	
 		#{/list}
