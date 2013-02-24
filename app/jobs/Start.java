@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.jdom.Element;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.sun.xml.internal.ws.util.xml.XmlUtil;
 
 import models.Answer;
 import models.Question;
@@ -19,6 +21,7 @@ import play.Logger;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 import util.Util;
+import util.XMLUtil;
 
 @OnApplicationStart
 public class Start extends Job {
@@ -122,6 +125,95 @@ public class Start extends Job {
          Logger.error(e, e.getMessage());
       }
    }
+   private static void loadQuizzesFromXmlFile() throws IOException{
+      File file = new File(QUIZ_PATH+"source.xml");
+       List<Element> questions = XMLUtil.getElementsByTagName(file, "question");
+       List<Quiz> quizObjs = new ArrayList<Quiz>();
+       String quizName = "";
+       Quiz quizObj = null;
+       for(Element questionEle:questions){
+          if(!questionEle.getAttribute("type").getValue().equals("category")){
+
+             String quizNameStr = questionEle.getChild("name").getChildText("text").split(" ")[0].replace(":","").trim();
+
+             if(!quizName.equals(quizNameStr)){
+                quizObj = new Quiz();
+                quizName = quizNameStr;
+                quizObj.title = quizName;
+                quizObjs.add(quizObj);
+             }
+             String questionText = questionEle.getChild("questiontext").getChildText("text");
+             Question question = new Question();
+             question.text = questionText.trim();
+             question.type = questionEle.getAttribute("type").getValue().trim();
+             
+         
+             quizObj.questions.add(question);
+
+             List<Element> answers = questionEle.getChildren("answer");
+             
+             boolean singleCorrectAnswer = false;
+             for(Element answerEle:answers){
+                String fractionStr = answerEle.getAttribute("fraction").getValue();
+                String answerText = answerEle.getChildText("text");
+
+                Answer answer = new Answer();
+                answer.fraction = Double.valueOf(fractionStr.trim());
+                if(answer.fraction==100.0){
+                   singleCorrectAnswer = true;
+                }
+                answer.text = answerText.trim();
+                question.answers.add(answer);
+                
+             }
+             
+             if(singleCorrectAnswer){
+                question.type = question.type+"-single";        
+             
+          }
+          }
+       }
+//         String quizName = "";
+//         Quiz quizObj = null;
+//         Question question = null;
+//         for(String line : lineList){    
+//            
+//            
+//            if(line.startsWith("//")){
+//               String quizNameStr = line.split(":")[2].split(" ")[1];      
+              
+//            }else if(line.startsWith("::")){
+//
+//               String questionText = line.split("::")[2];
+//               question = new Question();
+//               questionText = unescapeTxtDataFormat(questionText);
+//               question.text = questionText.substring(0, questionText.length()-1);
+//               quizObj.questions.add(question);
+//            }else if(line.startsWith("\t")){
+//               line = line.replaceFirst("\t", "");
+//               
+//               String answerText = "";
+//               
+//               if(line.startsWith("=")){
+//                  answerText = line.substring(1);
+//               }else{
+//                  try{
+//                     answerText = line.split("%")[2];   
+//                  }catch(Exception ex){
+//                     answerText = line.substring(1);
+//                  }
+//                  
+//               }
+//               Answer answer = new Answer();
+//               answerText = unescapeTxtDataFormat(answerText);
+//               answer.text = answerText;
+//               question.answers.add(answer);
+//            }
+//                       
+//         }
+       writeQuizzesIntoFile(quizObjs);
+//   
+   }
    
    private static void writeQuizzesIntoFile(List<Quiz> quizObjs) throws IOException{  
       Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -212,13 +304,13 @@ public class Start extends Job {
       }
    }
    
-   public static void main(String[] args) {
+   public static void main(String[] args) throws IOException {
       QUIZ_PATH = ".." + FS +"quizzes" + FS;
       File file = new File(QUIZ_PATH);
       if (!file.exists()) {
          file.mkdirs();
       }
-      loadQuizzesFromTextFile();
+      loadQuizzesFromXmlFile();
 //      loadQuizzesFromHTMLFile();
    }
 

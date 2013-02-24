@@ -1,66 +1,77 @@
 #{extends 'main.html' /}
 #{set title:quiz.title /}
 
-<script>
-quiz = null; 
-answers = {};
-function getQuizDataUrl(quizIdp){
-	
-		var actionUrl = #{jsAction @quizData(':quizId') /};
-		return actionUrl({quizId: quizIdp});
-	
 
-}
-function getQuizCallback(data){
-	quiz = data;
-}
-getQuizById(${quiz.id},getQuizCallback);
+<div id="quiz-${quiz.id}" style="overflow: hidden;">
 
-</script>
-<div id="productContainer" style="overflow: hidden;">
-
-<ul data-role="listview">
 %{i = 0}%
 #{list quiz.questions, as:'question'}
 	%{i ++}%
 	
+<ul data-role="listview" data-divider-theme="d" data-inset="true" id="question-${question.id}" class="question">
 <!-- 	<li data-theme="b"  data-inset="true" class="qa-text-center">${i}</li> -->
-	
-	<li data-theme="b"  data-inset="true"><span class="qa-question-number">${i})</span> <span class="qa-small-text">    ${question.text.raw()}</span></li>
-	
 
-	<li>
+	<li data-role="list-divider" data-inset="true">${i})</li>
+	
+	
+	<li data-theme="b" data-inset="true"> <span class="qa-small-text">    ${question.text.raw()}</span>
 		<div data-role="fieldcontain" >
 			<fieldset data-role="controlgroup">
 			    	
-	#{list question.answers, as:'answer'}
-	
-			<input type="radio" data-theme="c"  name="${question.id}" value="${answer.id}" id="${answer.id}"/>
-			<script>
-// 			$('#${answer.id}').bind("change"
-// 					,function(sender, e){
-// 			     var deselect = !answer(${question.id},${answer.id});
-// 			     $('#${answer.id}').prop('checked', false);
-// 					 if(!deselect){
-// 			    	 $('#${answer.id}').prop('checked', true);
-// 			     }else{
-			    	 
-// 			     }
-			   	
-// 			     $('#${answer.id}').checkboxradio('refresh');
-// 			     e.stopPropagation()
-// 			});
-			
-		
-			</script>
-	   		<label for="${answer.id}" ><span class="qa-small-text">${answer.text.raw()}</span></label>
-	#{/list}
+				#{list question.answers, as:'answer'}
+				
+					#{if answer.fraction>0} 
+						%{classs = 'correct'}%			
+					#{/if} 
+					#{else}
+						%{classs = 'wrong'}%
+					#{/else}
+					
+					#{if question.type == 'multichoice-single'} 
+						%{type = 'radio'}%			
+					#{/if} 
+					#{else}
+						%{type = 'checkbox'}%
+					#{/else}		
+				
+					<input type="${type}" data-theme="c"  id="answer-${answer.id}" name="question-${question.id}" value="answer-${answer.id}" />
+					<input type="hidden" id="fraction-${answer.id}" value="${answer.fraction}"/>
+			   		<label class=${classs} for="answer-${answer.id}" ><span class="qa-small-text">${answer.text.raw()}</span></label>
+				#{/list}
+
 			</fieldset>
-		</div>
+				<div align="right">
+					<a href="javascript:void(0)"
+						onclick="showAnswer('#question-${question.id}')" data-role="button"
+						data-theme="d">Submit</a>
+
+					<div align="center" class="result">
+				&nbsp;&nbsp;
+						
+					</div>
+				</div>
+
+			</div>
+		
 		<br>
-	</li>
-#{/list}
+	</li>	
 </ul>
+		<br>
  
+#{/list}
+
+<ul data-role="listview" data-inset="true" >
+		<li data-theme="a"  data-inset="true">
+			<div data-role="fieldcontain" >
+				<a href="javascript:void(0)" onclick="showAnswers(${quiz.id})" data-role="button"
+					data-theme="c">Submit All</a>
+	
+				<div align="center" class="total-result">
+					&nbsp;&nbsp;
+				</div>
+			</div>
+		</li>
+
+</ul>
 </div>
 <div class="clear"></div>

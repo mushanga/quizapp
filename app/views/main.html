@@ -34,7 +34,11 @@
 	
 		<h1>#{get 'title' /}</h1>
 		
-			<a href="#" class="ui-btn-right" data-role="button" data-icon="gear" data-iconpos="notext">Delete</a>
+		#{if request.url != '/'}
+		<a href="/options" class="ui-btn-right" data-role="button" data-icon="gear" data-iconpos="notext">Options</a>
+		#{/if}	
+	
+			
 	  
 	</div>
 
@@ -44,6 +48,6 @@
 <!-- 		<h4>Footer content</h4> -->
 	</div>
 </div>
-	
+
 </body>
 </html>

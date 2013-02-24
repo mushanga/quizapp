@@ -44,7 +44,7 @@ public class Util {
      String line, results = "";
      while( ( line = reader.readLine() ) != null)
      {
-         results += line;
+         results += "\n"+line;
      }
      reader.close();
      return results;

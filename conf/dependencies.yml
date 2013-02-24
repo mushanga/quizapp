@@ -2,4 +2,5 @@
 
 require:
     - play
-  
+    - xom -> xom 1.2.5
+    - jdom -> jdom 1.1
