@@ -4,6 +4,15 @@ eclipse
 .settings
 tmp
 *.class
+bin/
+data/
+db/
+dist/
+logs/
+test-result/
+lib/
+tmp/
+modules/
 
 # Package Files #
 *.jar
@@ -12,3 +21,4 @@ tmp
 /t-commerce.iws
 /t-commerce.ipr
 /t-commerce.iml
+

@@ -2,8 +2,8 @@
 function showAnswer(selector){
 
 	$(selector+' input').prop('disabled', true);
-	$(selector+' .correct').css("background-image","-webkit-linear-gradient( #fff,rgb(40, 180, 118))");
-	$(selector+' .wrong').css("background-image","-webkit-linear-gradient( #fff,rgb(231, 111, 111) )");
+	
+	paintAnswerLabels(selector);
 	
 	var selected = $(selector+" input:checked");
 	var pt = 0;
@@ -19,6 +19,34 @@ function showAnswer(selector){
 	$(selector+ ' .result').html((pt/100).toFixed(2)+' / 1.00');
 	$(selector+ ' .result').show();
 
+}
+function paintAnswerLabels(selector){
+	
+	var from = '#ffffff';
+	var toCorrect = '#28B476';
+	var toWrong = '#E76F6F';
+	
+	$(selector+' .correct').css("background-image","linear-gradient( "+from+","+toCorrect+")");
+	$(selector+' .wrong').css("background-image","linear-gradient( "+from+","+toWrong+" )");
+	//chrome
+	$(selector+' .correct').css("background-image","-webkit-linear-gradient("+from+","+toCorrect+")");
+	$(selector+' .wrong').css("background-image","-webkit-linear-gradient( "+from+","+toWrong+" )");
+	//ff
+	$(selector+' .correct').css("background-image","-moz-linear-gradient( "+from+","+toCorrect+")");
+	$(selector+' .wrong').css("background-image","-moz-linear-gradient( "+from+","+toWrong+" )");
+	//opera
+	$(selector+' .correct').css("background-image","-o-linear-gradient( "+from+","+toCorrect+")");
+	$(selector+' .wrong').css("background-image","-o-linear-gradient( "+from+","+toWrong+" )");
+	//ie
+	$(selector+' .correct').css("background-image","-ms-linear-gradient( "+from+","+toCorrect+")");
+	$(selector+' .wrong').css("background-image","-ms-linear-gradient( "+from+","+toWrong+" )");
+	//ie < 10
+	$(selector+' .correct').css("filter","progid:DXImageTransform.Microsoft.gradient(startColorstr='"+from+"',endColorstr='"+toCorrect+"')");
+	$(selector+' .wrong').css("filter","progid:DXImageTransform.Microsoft.gradient(startColorstr='"+from+"',endColorstr='"+toWrong+"')");
+	//	Android < 4.0
+	$(selector+' .correct').css("background-image","-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, "+from+"),color-stop(100%, "+toCorrect+"))");
+	$(selector+' .wrong').css("background-image","-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, "+from+"),color-stop(100%, "+toWrong+"))");
+	
 }
 function showAnswers(quizId){
 	var count = 0;
