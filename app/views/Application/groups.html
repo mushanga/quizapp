@@ -1,0 +1,14 @@
+#{extends 'Application/index.html' /}
+#{set title:root.name /}
+
+
+
+
+<div data-role="content">	
+	<ul data-role="listview" data-theme="c" data-inset="true">
+		#{list root.children, as:'child'}			
+			<li><a href="@{group(child.id)}"  data-transition="slide">${child.name}</a></li>	
+		#{/list}
+	</ul>	
+</div>
+<script>

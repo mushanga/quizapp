@@ -11,17 +11,20 @@ import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 @Entity
-public class Quiz extends Model{
-	
+public class Category extends Model{
+
    
+
+   @Lob
+   public Category parent;
    
-	public String title;
+   @OneToMany(cascade=CascadeType.ALL)
+   public List<Category> children = new ArrayList<Category>();
+   
+	public String name;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-   public List<Question> questions = new ArrayList<Question>();
-	
-	@Lob
-	public Category parent = null;
+	public List<Quiz> quizzes = new ArrayList<Quiz>();
 
 }
 

@@ -15,7 +15,8 @@ GET  /twitter/{tokenKey}/						Auth.twitterCallback
 
 GET /options                                    Application.options
 GET /user                                       Application.user
-GET /quiz                                       Application.quiz
+GET /group/{groupId}/quiz/{quizId}                      Application.quiz
+GET /group/{id}                                 Application.group
 
 GET /image/{imageName}                          Application.displayImage
 GET /graphdata/{ownerId}                        Application.displayGraphData

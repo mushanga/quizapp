@@ -1,0 +1,27 @@
+#{extends 'main.html' /}
+#{set title:group.name /}
+#{set pageId:'category-'+group.id /}
+
+#{set 'back'}
+	<a href="#home" data-transition="slide" data-icon="back" data-direction="reverse">${group.parent.name}</a>
+#{/set}
+
+<div data-role="content">	
+	<ul data-role="listview" data-theme="b" data-inset="true">
+		#{list group.quizzes, as:'quiz'}			
+			<li><a href="@{quiz(group.id, quiz.id)}"  data-transition="slide">${quiz.title}</a></li>	
+		#{/list}
+	</ul>	
+</div>
+
+<script>
+$('div').live('pageshow',function(event, ui){
+
+
+	    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+	
+
+	});	
+
+
+</script>

@@ -24,28 +24,33 @@
 </head>
 <body>
 	
-<div data-role="page" data-theme="a">
+<div id="#{get 'pageId' /}" data-role="page" data-theme="a">
 
 	<div data-role="header" data-position="fixed">
 		
-		#{if request.url != '/'}
-		<a href="/" data-transition="slide" data-icon="home" data-iconpos="notext" data-direction="reverse">Home</a>
-		#{/if}	
-	
-		<h1>#{get 'title' /}</h1>
+  <div data-type="horizontal" data-role="controlgroup" class="ui-btn-left ui-bar">  
+     #{if request.url != '/'}
+<!-- 		<a href="/" data-transition="slide" data-ajax="false" data-icon="home" data-iconpos="notext" data-direction="reverse">Home</a> -->
 		
-		#{if request.url != '/'}
-		<a href="/options" class="ui-btn-right" data-role="button" data-icon="gear" data-iconpos="notext">Options</a>
+		#{get 'back' /}
 		#{/if}	
 	
+			
+  </div>
+		
+		<h1>#{get 'title' /}</h1>
+		#{get 'options' /}
 			
 	  
 	</div>
 
-			#{doLayout user:user/}
+	#{doLayout user:user/}
 	
-	<div data-role="footer">
-<!-- 		<h4>Footer content</h4> -->
+	<div data-role="footer" >
+	<!-- 	<a href="index.html" data-role="button" data-icon="delete">Remove</a> -->
+	<!-- 	<a href="index.html" data-role="button" data-icon="plus">Add</a> -->
+	<!-- 	<a href="index.html" data-role="button" data-icon="arrow-u">Up</a> -->
+	<!-- 	<a href="index.html" data-role="button" data-icon="arrow-d">Down</a> -->
 	</div>
 </div>
 

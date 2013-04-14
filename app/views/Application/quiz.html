@@ -1,6 +1,16 @@
 #{extends 'main.html' /}
 #{set title:quiz.title /}
+#{set pageId:'quiz-'+quiz.id /}
 
+#{set 'back'}
+    
+	<a href="#category-${quiz.parent.id}" data-transition="slide" data-icon="back" data-direction="reverse">${quiz.parent.name}</a>
+#{/set}
+
+#{set 'options'}
+    <a href="/options" class="ui-btn-right" data-role="button" data-icon="gear" data-iconpos="notext">Options</a>
+		
+#{/set}
 
 <div id="quiz-${quiz.id}" style="overflow: hidden;">
 

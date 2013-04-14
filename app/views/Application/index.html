@@ -1,23 +1,6 @@
 #{extends 'main.html' /}
-#{set title:'Quiz App' /}
+
+#{set pageId:'home'/}
 
 
-
-<div data-role="content">	
-	<ul data-role="listview" data-theme="b" data-inset="true">
-		#{list quizzes, as:'quiz'}			
-			<li><a href="@{quiz(quiz.id)}"  data-transition="slide">${quiz.title}</a></li>	
-		#{/list}
-	</ul>	
-</div>
-<script>
-$('div').live('pageshow',function(event, ui){
-
-
-	    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-	
-
-	});	
-
-
-</script>
+#{doLayout groups:groups/}
