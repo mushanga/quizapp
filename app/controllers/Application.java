@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import models.Category;
@@ -10,7 +12,7 @@ public class Application extends Controller {
 	public static void index() {
 
 	   Category root = Category.find("parent is null").first();
-      
+      Collections.sort(root.children);
 		render("Application/groups.html", root);
 	}
 

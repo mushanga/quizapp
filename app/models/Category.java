@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 @Entity
-public class Category extends Model{
+public class Category extends Model implements Comparable<Category>{
 
    
 
@@ -25,6 +25,11 @@ public class Category extends Model{
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	public List<Quiz> quizzes = new ArrayList<Quiz>();
+
+	@Override
+	public int compareTo(Category o) {
+		return this.name.compareTo(o.name);
+	}
 
 }
 
