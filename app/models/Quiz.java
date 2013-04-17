@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 @Entity
-public class Quiz extends Model{
+public class Quiz extends Model implements Comparable<Quiz>{
 	
    
    
@@ -22,6 +22,10 @@ public class Quiz extends Model{
 	
 	@Lob
 	public Category parent = null;
+	@Override
+	public int compareTo(Quiz o) {
+		return this.title.compareTo(o.title);
+	}
 
 }
 

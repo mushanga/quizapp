@@ -30,6 +30,8 @@ public class Application extends Controller {
 
       
       Category group = Category.findById(Long.valueOf(id));
+
+      Collections.sort(group.quizzes);
       if(group.parent==null){
 
          Category root = group;
