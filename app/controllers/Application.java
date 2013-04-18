@@ -12,7 +12,6 @@ public class Application extends Controller {
 	public static void index() {
 
 	   Category root = Category.find("parent is null").first();
-      Collections.sort(root.children);
 		render("Application/groups.html", root);
 	}
 
@@ -31,7 +30,6 @@ public class Application extends Controller {
       
       Category group = Category.findById(Long.valueOf(id));
 
-      Collections.sort(group.quizzes);
       if(group.parent==null){
 
          Category root = group;
