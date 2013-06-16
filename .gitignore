@@ -2,6 +2,7 @@
 .project
 eclipse
 .settings
+server.pid
 tmp
 *.class
 bin/
