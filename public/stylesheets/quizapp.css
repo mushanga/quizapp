@@ -1,23 +1,56 @@
-.qa-text-center{
+.qa-text-center {
 	text-align: center;
 }
 
-.qa-small-text{
-	font-size:small;
+.pull-right {
+	float: right;
+}
+
+.white-background {
+	width: 100px;
+	background-color: white;
+	border: 2px solid;
+	border-radius: 25px;
+}
+
+.logo {
+	
+}
+
+.logo-right {
+	text-align: center; position : fixed;
+	top: 2px;
+	right: 2px;
+	z-index: 9999;
+	position: fixed;
+}
+
+.logo-left {
+	position: fixed;
+	top: 2px;
+	left: 2px;
+	z-index: 9999;
+}
+
+.pull-left {
+	float: left;
+}
+
+.qa-small-text {
+	font-size: small;
 	white-space: normal;
-
 }
-.qa-valign-top{
+
+.qa-valign-top {
 	vertical-align: top;
-
 }
-.qa-margin-right{
+
+.qa-margin-right {
 	margin-right: 10px;
-
 }
-.qa-question-number{
-	color : rgb(200, 200, 200);
+
+.qa-question-number {
+	color: rgb(200, 200, 200);
 	margin-right: 10px;
 	vertical-align: top;
-
 }
